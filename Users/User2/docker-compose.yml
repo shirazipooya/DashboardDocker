@@ -5,8 +5,8 @@ services:
   app:
     # build: .
     image: dashboard
-    command: gunicorn -b 0.0.0.0:5000 --timeout 600 app:app
-    container_name: user1
+    command: gunicorn -b 0.0.0.0:5002 --timeout 600 app:app
+    container_name: user2
     restart: always
     environment:
       - PYTHONBUFFERED=1
@@ -14,7 +14,7 @@ services:
       - redis
       - db
     ports:
-      - 5000:5000
+      - 5002:5002
 
   redis:
     image: redis:latest
