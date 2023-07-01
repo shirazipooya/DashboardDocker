@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  app:
+    # build: .
+    image: dashboard
+    command: gunicorn -b 0.0.0.0:5015 --timeout 600 app:app
+    container_name: user15
+    restart: always
+    environment:
+      - PYTHONBUFFERED=1
+    links:
+      - redis
+      - db
+    ports:
+      - 5015:5015
+
+  redis:
+    image: redis:latest
+    expose:
+      - "6379:6379"
+
+  db:
+    image: postgis/postgis:15-3.3-alpine
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_MULTIPLE_DATABASES=data,layers
+    expose:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

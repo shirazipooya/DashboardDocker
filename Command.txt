@@ -1,0 +1,4 @@
+docker build -t dashboard .
+
+docker-compose up --build
+
